@@ -1,0 +1,32 @@
+spring:
+  #DataSource Config
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/chat?useUnicode=true&useSSL=false&characterEncoding=utf8
+    username: root
+    password: root
+  http:
+    encoding:
+      charset: UTF-8
+      force: true
+      enabled: true
+#Thymeleaf
+#  thymeleaf:
+#    prefix: classpath:/templates/
+#    suffix: .html
+#    encoding: utf-8
+#    cache: false
+#    mode: HTML
+
+#热部署
+devtools:
+  restart:
+    enabled: true
+    additional-paths: src/main/java
+# Logger Config
+logging:
+  level:
+    cn.srblog.chat.mapper: debug
+server:
+  servlet:
+    context-path: /

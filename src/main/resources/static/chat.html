@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>智能聊天室系统</title>
+<!--    <meta http-equiv="Cache-Control" content="no-siteapp" />-->
+    <link rel="stylesheet" type="text/css" href="assets/layer/theme/default/layer.css">
+    <link rel="stylesheet" type="text/css" href="assets/font-awesome-4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/css/amazeui.min.css">
+    <link href="assets/ueditor/themes/default/css/ueditor.css" rel="stylesheet">
+    <script type="text/javascript" src="assets/js/HZRecorder.js"></script>
+    <style type="text/css">
+        .chat-scrollable {
+            height: 29rem;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+        @keyframes voice{
+            0%{
+                height: 0%;
+            }
+            20%{
+                height: 50%;
+            }
+            50%{
+                height: 100%;
+            }
+            80%{
+                height: 50%;
+            }
+            100%{
+                height: 0%;
+            }
+        }
+
+        #container{
+            width: 200px;
+            height: 50px;
+            margin: auto auto;
+        }
+        #container #one{
+            animation:voice 0.6s infinite 0.1s;
+            -webkit-animation:voice 0.6s infinite 0.1s;
+        }
+        #container #two{
+            animation:voice 0.6s infinite 0.2s;
+            -webkit-animation:voice 0.6s infinite 0.2s;
+        }
+        #container #three{
+            animation:voice 0.6s infinite 0.3s;
+            -webkit-animation:voice 0.6s infinite 0.3s;
+        }
+        #container #four{
+            animation:voice 0.6s infinite 0.4s;
+            -webkit-animation:voice 0.6s infinite 0.4s;
+        }
+        #container #five{
+            animation:voice 0.6s infinite 0.5s;
+            -webkit-animation:voice 0.6s infinite 0.5s;
+        }
+
+        #one,#two,#three,#four,#five{
+            width:6px;
+            height: 100%;
+            margin-left: 10px;
+            border-radius: 50px;
+            background-color: #999;
+            vertical-align: middle;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body style="background-color:#f2f2f2">
+<div class="am-g">
+    <!-- 头部 -->
+    <header class="am-topbar" style="background-color:#262626">
+        <h1 class="am-topbar-brand"></h1>
+        <div class="am-collapse am-topbar-collapse" id="doc-topbar-collapse">
+            <ul class="am-nav am-nav-pills am-topbar-nav ">
+                <li class="am-active"><a href="javascript:void(0)"><i class="fa fa-comments-o"></i>&nbsp;在线聊天室</a>
+                </li>
+            </ul>
+            <div class="am-topbar-right">
+              <a href="#" class="am-btn am-topbar-btn am-btn-sm am-btn-default">
+                <i class="am-icon-cog am-icon-spin"></i>
+              </a>
+                <a href="#" onclick="exit()" class="am-btn am-topbar-btn am-btn-sm am-radius am-btn-danger">
+                <i class="fa fa-times"></i>
+                </a>
+            </div>
+        </div>
+    </header>
+    <div class="am-u-md-3">
+        <!-- 个人信息-->
+        <div class="am-panel-group" data-am-sticky>
+            <div class="am-panel am-panel-default">
+                <div class="am-panel-hd">
+                    <i class="fa fa-address-book-o"></i>[个人信息]
+                </div>
+                <div class="am-panel-bd am-text-center">
+                    <img id="photo" class="am-circle am-img-thumbnail " src="assets/images/photo.png"
+                         width="60" height="60" />
+                    <p class="am-text-default">
+                        <i class="fa fa-user" id="name"></i>
+                    </p>
+                </div>
+            </div>
+            <!-- 在线用户-->
+            <div class="am-panel am-panel-default">
+                <div class="am-panel-hd">
+                    <i class="fa fa-sliders"></i>[在线用户]
+                </div>
+                <div id="online" class="am-panel-bd chat-scrollable"
+                     style="height:100px"></div>
+            </div>
+
+            <!--选项卡  -->
+            <div class="am-panel am-panel-default">
+                <div class="am-tabs" data-am-tabs>
+                    <ul class="am-tabs-nav am-nav am-nav-tabs">
+                        <li class="am-active"><a href="#tab1">公告</a></li>
+                        <li><a href="#tab2">图灵机器人</a></li>
+                        <li><a href="#tab4">音乐</a></li>
+                        <li><a href="#tab3">更多</a></li>
+                    </ul>
+
+                    <div class="am-tabs-bd">
+                        <div class="am-tab-panel am-active" id="tab1">
+                            当前聊天室接入了<span class="am-badge am-badge-secondary am-round">图灵智能聊天机器人</span>&nbsp;<a
+                                onclick="shortcuts()" href="javascript:void(0)"><img
+                                class="am-radius" width="17" height="17" alt=""
+                                src="assets/images/robot.png">&nbsp;小图图</a>
+                            <hr>
+                            <span class="am-badge am-badge-danger am-round">1</span>&nbsp;用户可以进行简单的实时通讯
+                            <br> <span class="am-badge am-badge-secondary am-round">2</span>&nbsp;体验智能聊天机器人的趣味
+                            <br> <span class="am-badge am-badge-success am-round">3</span>&nbsp;各种功能正在完善添加中~
+                            <hr>
+                            <i class="am-icon-send"></i>&nbsp;:&nbsp;发送消息&nbsp;&nbsp;&nbsp;
+                            <i class="am-icon-retweet"></i>&nbsp;:&nbsp;清空屏幕&nbsp;&nbsp; <br>
+                            <i class="am-icon-music"></i>&nbsp;:&nbsp;切换歌单&nbsp;&nbsp; <i
+                                class="am-icon-microphone"></i>&nbsp;:&nbsp;语音消息&nbsp;&nbsp; <i
+                                class="am-icon-power-off"></i>&nbsp;:&nbsp;关闭会话<br>
+                        </div>
+
+                        <div class="am-tab-panel" id="tab2">
+                            <strong>使用方法:</strong>&nbsp;输入<a onclick="shortcuts()"
+                                                             href="javascript:void(0)">@小图图</a> 即可与其进行聊天
+                            <hr>
+                            <strong>主要功能:</strong>&nbsp;智能聊天、休闲娱乐、生活服务 ……
+                            <hr>
+                            <strong>详细介绍:</strong><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;智能好用的聊天机器人~
+                            <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a
+                                class="am-link-muted" href="http://www.turingapi.com"
+                                target="_blank">更多详细介绍请点击访问官网API文档</a> <br> <br>
+                        </div>
+
+                        <div class="am-tab-panel" id="tab3">
+                            项目开发中,尽请期待…… <br> <br> <br> <br> <br> <br>
+                            <br> <br>
+                        </div>
+
+                        <div class="am-tab-panel" id="tab4">
+                            <iframe id="musicfrm" frameborder="no" border="0"
+                                    marginwidth="0" marginheight="0" width=320 height=246
+                                    src="//music.163.com/outchain/player?type=0&id=2252736518&auto=0&height=430">
+                            </iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 聊天面板 -->
+    <div id="chatpanel" class="am-u-md-9">
+        <div style="height:460px"
+             class="am-panel am-panel-default chat-scrollable">
+            <div class="am-panel-bd">
+                <ul class="am-comments-list am-comments-list-flip"
+                    id="message-list">
+                </ul>
+            </div>
+        </div>
+        <div class="am-g">
+            <!-- 编辑框 -->
+            <div class="am-u-sm-10">
+                <form class="am-form">
+                    <script type="text/plain" id="myEditor" style="height:110px"></script>
+                </form>
+            </div>
+            <!-- 按钮组 -->
+            <div class="am-u-sm-2 am-text-center">
+                <hr>
+                <a id="send" role="button" href="javascript:void(0)"
+                   onclick="send()" class=" am-icon-btn am-icon-send"></a>
+                <a id="cls" role="button" href="javascript:void(0)" onclick="cls()"
+                    class=" am-icon-btn am-icon-retweet"></a>
+                <hr>
+                <a id="music" type="button" href="javascript:void(0)" class=" am-icon-btn am-icon-music"></a>
+                <a id="voice" type="button" href="javascript:void(0)" class=" am-icon-btn am-icon-microphone"></a>
+                <a id="exit" type="button" href="javascript:void(0)" onclick="exit()" class=" am-icon-btn am-icon-power-off"></a>
+            </div>
+        </div>
+    </div>
+    <div id="privateChat" style="display:none">
+        <div style="height:420px"
+             class="am-panel am-panel-default  chat-scrollable">
+            <div class="am-panel-bd">
+                <ul class="am-comments-list am-comments-list-flip"
+                    id="private-list"></ul>
+            </div>
+        </div>
+
+        <input id="text" type="text" class="am-form-field am-input-lg"
+               placeholder="请输入您要发送的内容……" />
+    </div>
+</div>
+<script type="text/javascript" src="assets/js/jquery-1.10.2.js"></script>
+<script type="text/javascript" src="assets/js/amazeui.min.js"></script>
+<script type="text/javascript" src="assets/layer/layer.js"></script>
+<!-- 编辑器配置文件 -->
+<script type="text/javascript" src="assets/ueditor/ueditor.config.js"></script>
+<!-- 编辑器源码文件 -->
+<script type="text/javascript" src="assets/ueditor/ueditor.all.min.js"></script>
+<script type="text/javascript" src="assets/ueditor/ueditor.parse.js"></script>
+<!-- 实例化编辑器 -->
+<script type="text/javascript">
+    var editor = UE.getEditor('myEditor', {
+        autoHeightEnabled : false,
+        toolbars : [ [ 'fullscreen', '|', 'undo', 'redo', '|',
+            'forecolor', 'bold', 'italic', 'underline', 'strikethrough', 'superscript', 'subscript', '|',
+            'removeformat', 'formatmatch', 'autotypeset', 'selectall', 'cleardoc', 'blockquote', 'pasteplain', 'fontfamily', 'fontsize'
+            ,'insertcode', 'simpleupload', 'insertimage', '|', 'emotion', 'scrawl', 'backcolor', 'inserttable' ] ],
+    });
+</script>
+
+<script type="text/javascript">
+
+    console.log(sessionStorage.localData);
+
+    if (!$.trim(sessionStorage.localData)){
+        window.location.href="index.html";
+    } else{
+        var userData = JSON.parse(sessionStorage.localData);
+        $('#name').text(userData.nickname);
+        var websocket = null;
+        var audio_context;
+        var recorder;
+        var host = window.location.host;
+        if ('WebSocket' in window) {
+            websocket = new WebSocket('ws://'+host+'/websocket/');
+        } else {
+            layer.alert('当前浏览器不支持本聊天室系统!')
+        }
+    }
+        //连接发生错误
+        websocket.onerror = function() {
+            layer.alert("网络连接发生错误");
+        };
+
+        //成功连接
+        websocket.onopen = function() {
+            layer.msg('您已成功进入聊天室!', {
+                anim : 6
+            });
+        };
+
+        //接收服务端消息
+        websocket.onmessage = function(event) {
+            var msg = $.parseJSON(event.data);
+            console.log("接收服务端消息:",msg);
+            if ($.isArray(msg)) {
+                showOnLine(msg);
+            } else if (msg.type == 1) {
+                privateChatAccept(msg);
+            }else{
+                publicMessageAccept(msg);
+            }
+        };
+
+        //关闭连接
+        websocket.onclose = function() {
+            layer.msg("会话关闭");
+        };
+
+        //监听窗口关闭事件，当窗口关闭时，主动去关闭websocket连接，防止连接还没断开就关闭窗口，server端会抛异常。
+        window.onbeforeunload = function() {
+            closeWebSocket();
+        };
+
+        window.onunload = function() {
+            closeWebSocket();
+        };
+
+        //关闭WebSocket连接
+        function closeWebSocket() {
+            websocket.close();
+        };
+
+        //开始录音
+        function startRecording() {
+            HZRecorder.get(function(res) {
+                recorder = res;
+                recorder.start();
+            });
+        };
+        //停止录音
+        function stopRecording() {
+            recorder.stop();
+        };
+
+        function blobToDataURL(blob, callback) { // Blob对象转Base64
+            var fileReader = new FileReader();
+            fileReader.onload = function (e) {
+                callback(e.target.result);
+            };
+            fileReader.readAsDataURL(blob);
+        }
+
+        //上传录音
+        function uploadAudio() {
+            var blob = recorder.getBlob();
+            if (blob.size > 5200000) {
+                layer.alert("录音时间过长,请重试");
+                return;
+            }
+            console.log(blob.size);
+            blobToDataURL(blob,function (res) {
+                var voiceContent = '<audio controls="controls" src="' + res + '"></audio>';
+                var obj = {
+                    type : 3,
+                    msg : voiceContent
+                };
+                console.log(JSON.stringify(obj))
+                websocket.send(JSON.stringify(obj));
+            });
+        };
+
+
+
+        //点击进行语音操作
+        $('#voice').click(function() {
+            startRecording();
+            layer.msg('<div id="container">' +
+                '<div id="one"></div>' +
+                '<div id="two"></div>' +
+                '<div id="three"></div>' +
+                '<div id="four"></div>' +
+                '<div id="five"></div>' +
+                '</div>'
+                , {
+                    time : 0,
+                    area : [ 'auto','auto'],
+                    btn : [ '说完了'],
+                    yes : function(index) {
+                        stopRecording();
+                        uploadAudio();
+                        layer.close(index);
+                    }
+                });
+        });
+
+        //清屏
+        function cls() {
+            $('#message-list').html('');
+        };
+
+        //关闭会话
+        function exit() {
+            layer.confirm("确认结束会话？", {
+                icon : 3
+            }, function() {
+                closeWebSocket();
+                window.location.href = "login.html";
+            });
+        };
+
+        //发送消息
+        function send() {
+            editor.focus();
+            if (!editor.hasContents()) {
+                layer.msg('请输入内容');
+                return;
+            }
+            var text = editor.getContent();
+            var obj = {
+                type : 2,
+                msg : text
+            };
+            websocket.send(JSON.stringify(obj));
+            editor.setContent('');
+            editor.focus();
+        }
+
+        function publicMessageAccept(res) {
+            console.log("机器人回复信息:",res);
+            var robotMsg;
+            var userReplyMsg = '<li class="am-comment am-comment-primary '
+                + (res.isSelf ? 'am-comment-flip ' : 'am-comment ') + '">'
+                + '<a href="javascript:void(0)"><img src="assets/images/photo.png" class="am-comment-avatar" width="48" height="48"/></a>'
+                + '<div class="am-comment-main"><header class="am-comment-hd"><div class="am-comment-meta">'
+                + '<a href="javascript:void(0)" class="am-comment-author">'
+                + res.name + ' </a>发送于: <time>' + res.date
+                + '</time></div></header><div class="am-comment-bd">' + res.msg
+                + '</div></div></li>';
+            $(userReplyMsg).appendTo('#message-list');
+            console.log("构建用户消息",userReplyMsg);
+            if ($.trim(res.robotMsg)){
+                setTimeout(function() {
+                    robotMsg = "<li class=\"am-comment am-comment-primary\"><a onclick='shortcuts()'  href=\"javascript:void(0)\">"
+                        + "<img width=\"48\" height=\"48\" class=\"am-comment-avatar\"  src=\"assets/images/robot.png\"></a>"
+                        +" <div class=\"am-comment-main\"><header class=\"am-comment-hd\"><div class=\"am-comment-meta\">"
+                        + "<a onclick='shortcuts()' class=\"am-comment-author\" href=\"javascript:void(0)\">小图图  </a>发送于: <time>" + res.date + "</time></div>"
+                        + "</header><div class=\"am-comment-bd\">" + res.robotMsg.text
+                        + ($.trim(res.robotMsg.url) ?"<a href=\"" + res.robotMsg.url + "\" target=\"_blank\">" + res.robotMsg.url + "</a>"  : "")
+                        + "</div></div></li>";
+                    console.log("构建机器回复消息",robotMsg);
+                    $(robotMsg).appendTo('#message-list');
+                    $(".chat-scrollable").scrollTop($(".chat-scrollable")[1].scrollHeight);
+                }, 500);
+            }
+            $(".chat-scrollable").scrollTop($(".chat-scrollable")[1].scrollHeight);
+        }
+
+        //更换音乐歌单
+        $('#music').click(function() {
+            layer.prompt({
+                title : '<i class="fa fa-music" aria-hidden="true"></i> 请输入您的网易云歌单ID',
+            }, function(pass, index) {
+                if (isNaN(pass)) {
+                    layer.msg("请输入正确格式的歌单ID!");
+                } else {
+                    $('#musicFrame').attr("src", "//music.163.com/outchain/player?type=0&id=" + pass + "&auto=0&height=430");
+                    layer.msg("修改完成");
+                    layer.close(index);
+                }
+                // else{ layer.msg("歌单ID有误或不存在!");}
+            });
+        });
+
+        //快捷操作
+        function shortcuts() {
+            editor.setContent('<a href="javascript:void(0)">@小图图</a>');
+        };
+
+        // 显示在线人员列表
+        function showOnLine(res) {
+            var line = '<ul id="onlineList" class="am-avg-sm-5">' +
+                '<li><a onclick="shortcuts()" href="javascript:void(0)">' +
+                '<img src="assets/images/robot.png" class="am-comment-avatar"/>' +
+                '</a></li>';
+            $.each(res,function(n, value) {
+                line += "<li><a onclick='privateDialog("+JSON.stringify(value) +")'"
+                    + 'href="javascript:void(0)"><img src="assets/images/photo.png" class="am-comment-avatar" /></a></li>';
+            });
+            line += '</ul>';
+            $('#online').html(line);
+        }
+
+        function privateDialog(person) {
+            console.log(person);
+            layer.open({
+                type : 1,
+                title : '<i class="fa fa-user-circle"></i><strong>' + person.nickname + '</strong>-个人资料卡',
+                area : [ '350px', '320px' ],
+                skin : 'layui-layer-lan',
+                shadeClose : true,
+                resize : false,
+                content : '<br><div class="am-text-center"><p><img src="assets/images/photo.png" width="60" height="60" class="am-circle am-img-thumbnail" />'
+                    + '</p><div class="am-text-left">&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<span class="am-badge am-badge-primary">&nbsp;用户名:</span>&nbsp;' + person.nickname + ''
+                    + '<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<span class="am-badge  am-badge-primary">&nbsp;用户ID:</span>&nbsp;' + person.id
+                    + '</div></div>',
+                btn : [ '关闭', '<i class="fa fa-comment-o" aria-hidden="true"></i>私聊' ],
+                btn1 : function(index, layero) {
+                    layer.close(index);
+                },
+                btn2 : function(index, layero) {
+                    layer.open({
+                        id : 2,
+                        type : 1,
+                        title : '<img src="assets/images/photo.png" width="30" height="30" class="am-circle am-img-thumbnail" /> <strong>'+ person.nickname + '</strong>',
+                        area : [ '700px', '580px' ],
+                        skin : 'layui-layer-lan',
+                        shadeClose : true,
+                        shade : false,
+                        resize : false,
+                        maxmin : true,
+                        content : $('#privateChat'),
+                        btn : [ '关闭','<i class="fa fa-window-close" aria-hidden="true"></i>清屏', '<i class="fa fa-send" aria-hidden="true"></i>发送' ],
+                        btn1 : function(index, layero) {
+                            layer.close(index);
+                        },
+                        btn2 : function(index, layero) {
+                            $('#private-list').html('');
+                            return false;
+                        },
+                        btn3 : function(index, layero) {
+                            privateSend(person.id);
+                            return false;
+                        }
+                    });
+                }
+            });
+        }
+
+        /**
+         * 格式化时间
+         * @param time
+         * @returns {string}
+         */
+        function formatDate(time) {
+            var date = new Date(time);
+            var year = date.getFullYear(),
+                month = date.getMonth() + 1,
+                day = date.getDate(),
+                hour = date.getHours(),
+                min = date.getMinutes(),
+                sec = date.getSeconds();
+            var newTime = year + '-' +
+                (month < 10 ? '0' + month : month) + '-' +
+                (day < 10 ? '0' + day : day) + ' ' +
+                (hour < 10 ? '0' + hour : hour) + ':' +
+                (min < 10 ? '0' + min : min) + ':' +
+                (sec < 10 ? '0' + sec : sec);
+            return newTime;
+        }
+
+        /**
+         * 私聊发送消息
+         * @param userId
+         */
+        function privateSend(userId) {
+            console.log(userId);
+            var text = $('#text').val();
+            $('#text').val('');
+            var obj = {
+                type : 1,
+                msg : text,
+                userId : userId
+            };
+            var date = formatDate(new Date().getTime());
+            var username = '${sessionScope.userLogin.username}'
+            var selfMsg = '<li class="am-comment am-comment-primary am-comment-flip">'
+                + '<a href="javascript:void(0)"><img src="assets/images/photo.png" class="am-comment-avatar" width="30" height="30"/></a>'
+                + '<div class="am-comment-main"><header class="am-comment-hd"><div class="am-comment-meta">'
+                + '<a href="javascript:void(0)" class="am-comment-author">'+username + '</a>发送于: '
+                +'<time>' + date +'</time></div></header><div class="am-comment-bd">' + text
+                + '</div></div></li>';
+            $(selfMsg).appendTo('#private-list');
+            $(".chat-scrollable").scrollTop($(".chat-scrollable")[2].scrollHeight);
+            websocket.send(JSON.stringify(obj));
+        }
+
+        /**
+         * 私聊接收消息
+         * @param res
+         */
+        function privateChatAccept(res) {
+            var userReplyMsg = '<li class="am-comment am-comment-primary">'
+                + '<a href="javascript:void(0)"><img src="assets/images/photo.png" class="am-comment-avatar" width="30" height="30"/></a>'
+                + '<div class="am-comment-main"><header class="am-comment-hd"><div class="am-comment-meta">'
+                + '<a href="javascript:void(0)" class="am-comment-author">'
+                + res.name + '</a>发送于: <time>' + res.date
+                + '</time></div></header><div class="am-comment-bd">' + res.msg
+                + '</div></div></li>';
+            $(userReplyMsg).appendTo('#private-list');
+            $(".chat-scrollable").scrollTop($(".chat-scrollable")[2].scrollHeight);
+            var index = layer.open({
+                id: 2,
+                type: 1,
+                title: '<img src="assets/images/photo.png" width="30" height="30" class="am-circle am-img-thumbnail" /> <strong>' + res.name + '</strong>',
+                area: ['700px', '580px'],
+                skin: 'layui-layer-lan',
+                shadeClose: true,
+                shade: false,
+                resize: false,
+                maxmin: true,
+                content: $('#privateChat'),
+                btn: ['关闭', '<i class="fa fa-window-close" aria-hidden="true"></i>清屏', '<i class="fa fa-send" aria-hidden="true"></i>发送'],
+                btn1: function (index, layero) {
+                    layer.close(index);
+                },
+                btn2: function (index, layero) {
+                    $('#private-list').html('');
+                    return false;
+                },
+                btn3: function (index, layero) {
+                    privateSend(res.userId);
+                    return false;
+                }
+            });
+            layer.min(index);
+        }
+
+</script>
+</body>
+</html>

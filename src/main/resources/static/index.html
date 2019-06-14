@@ -1,0 +1,372 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>在线聊天室</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" type="text/css" href="assets/font-awesome-4.7.0/css/font-awesome.css">
+	<link rel="stylesheet" type="text/css" href="assets/css/bootstrap.css">
+	<link rel="stylesheet" type="text/css" href="assets/css/bootstrapValidator.css">
+	<link rel="stylesheet" type="text/css" href="assets/layer/theme/default/layer.css">
+	<script src="https://ssl.captcha.qq.com/TCaptcha.js"></script>
+<style>
+.container {
+	display: table;
+	height: 720px;
+}
+
+.row {
+	display: table-cell;
+	vertical-align: middle;
+}
+
+.row-centered {
+	text-align: center;
+}
+
+ body {
+	 margin: 1px;
+	 background: url(assets/images/bg.png) no-repeat;
+	 background-size: 100% 100%;
+	 height: 100%;
+ 
+}
+
+.col-centered {
+	display: inline-block;
+	float: none;
+	text-align: center;
+	background: url(assets/images/bg.png) no-repeat;
+	background-size: cover;
+}
+</style>
+
+</head>
+<body>
+	<div class="container">
+		<!-- 登陆 -->
+		<div class="row row-centered" id="login_div">
+			<div class="well col-md-3 col-centered">
+				 <h3 style="text-align:center">智能在线聊天室</h3>
+				<hr class="style-three" />
+				<form  id="login_form">
+					<div class="form-group ">
+						<div class="input-group ">
+							<div class="input-group-addon">
+							  <i class="fa fa-user fa-fw"></i>
+							</div> 
+							<input class="form-control" type="text" name="account" id="account" placeholder="请输入账号:" />
+						</div>
+					</div>
+
+
+					<div class="form-group ">
+						<div class="input-group ">
+							<span class="input-group-addon"><i class="fa fa-key fa-fw"></i></span>
+							<input class="form-control " type="password" name="password"
+								id="password" placeholder="请输入密码:">
+						</div>
+					</div>
+
+					<hr>
+					<div class="form-group">
+						<button class="btn  btn-default" id="switch" style="float: left" type="button">
+							<i class="fa fa-user-plus"></i> 注册
+						</button>
+						<button id="login_start" class="btn  btn-default" type="submit" style="float: right">
+							<i class="fa fa-chrome fa-spin"></i> 登录
+						</button>
+					</div>
+				</form>
+			</div>
+		</div>
+		<!-- 注册 -->
+		<div class="row row-centered " id="reg_div" style="display:none">
+			<div class="well col-md-3 col-centered">
+				<h4>注册用户</h4>
+				<hr class="style-three" />
+				<form id="reg_form" method="post">
+					<div class="form-group">
+						<div class="input-group">
+							<span class="input-group-addon"><i class="fa fa-user fa-fw"></i></span>
+							<input class=" form-control" type="text" id="reg_account" name="reg_account" maxlength="16" placeholder="请输入账号:" />
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="input-group">
+							<span class="input-group-addon"><i class="fa fa-key fa-fw"></i></span>
+							<input class="form-control" type="password" id="reg_password"
+								name="reg_password" maxlength="16" placeholder="请输入密码:">
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="input-group">
+							<span class="input-group-addon"><i class="fa fa-key fa-fw"></i></span>
+							<input class="form-control " type="password" id="reg_password1"
+								name="reg_password1" maxlength="16" placeholder="请再次输入密码:">
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="input-group">
+							<span class="input-group-addon"><i
+								class="fa fa-address-card-o fa-fw"></i></span> <input
+								class="form-control " type="text" id="nickname" name="nickname"
+								maxlength="16" placeholder="请输入昵称:">
+						</div>
+					</div>
+					<!-- 手机号 -->
+					<div class="form-group">
+						<div class="input-group">
+							<span class="input-group-addon"><i class="fa fa-mobile fa-fw"></i></span>
+							<input class="form-control " type="text" id="phone" name="phone"
+								   maxlength="11" placeholder="请输入您的手机号:">
+						</div>
+					</div>
+					<!-- 短信验证码部分 -->
+					<div class="form-group">
+						<div class="input-group">
+							<span class="input-group-addon">
+								<i class="fa fa-comment fa-fw"></i>
+							</span>
+							<input id="verifyCode" name="verifyCode" class="form-control" placeholder="短信验证码" maxlength="6" type="text">
+							<span class="input-group-btn">
+							  <button type="button" class="btn btn-default bt-sm disabled" id="msgBtn">发送验证码</button>
+							</span>
+						</div>
+					
+					</div>
+					<hr>
+					<div class="form-group">
+						<div id="reg_return" style="float: left"  >
+							<button class="btn  btn-default" id="switch1" type="button">
+								<i class="fa fa-reply"></i>返回登录
+							</button>
+						</div>
+						<div  style="float: right">
+							<button id="reg" class="btn  btn-default" type="submit">
+								<i class="fa fa-sun-o fa-spin"></i> 注册
+							</button>
+						</div>
+					</div>
+				</form>
+			</div>			
+		</div>
+	</div>
+</body>
+	<script type="text/javascript" color="96,96,96" opacity='1' zIndex="-2" count="120" src="assets/js/canvas-nest.js"></script>
+	<script type="text/javascript" src="assets/js/jquery-1.10.2.js"></script>
+	<script type="text/javascript" src="assets/js/bootstrap.js"></script>
+	<script type="text/javascript" src="assets/js/bootstrapValidator.js"></script>
+	<script type="text/javascript" src="assets/layer/layer.js"></script>
+	<script>
+
+		$(function(){
+			$('#switch').click(function() {
+				$("#login_div").hide();
+				$("#reg_div").show();
+			});
+			$('#switch1').click(function(){
+				$("#reg_div").hide();
+				$("#login_div").show();
+			});
+			//注册
+			$('#reg_form').bootstrapValidator({
+				message : '信息未验证',
+				verbose : false,
+				fields : {
+					reg_account : {
+						message : '账号验证失败',
+						validators : {
+							notEmpty : {
+								message : '账号不能为空'
+							},
+
+							stringLength : {
+								min : 6,
+								max : 16,
+								message : '账号长度为6~16位'
+							},
+							threshold : 6,
+							remote : {
+								type : 'post',
+								url : '/user/checkAccount',
+								message : '此账号已存在!',
+								delay : 1500
+							},
+							regexp : {
+								regexp : /^[a-zA-Z0-9_]+$/,
+								message : '账号只支持大写、小写、数字和下划线组合'
+							}
+						}
+					},
+					reg_password : {
+						validators : {
+							notEmpty : {
+								message : '密码不能为空'
+							},
+							stringLength : {
+								min : 6,
+								max : 16,
+								message : '密码长度为6~16位'
+							},
+							different : {
+								field : 'account',
+								message : '密码不能和用户名相同'
+							},
+							regexp : {
+								regexp : /^[a-zA-Z0-9_\.]+$/,
+								message : '密码由数字、字母、下划线和.组成'
+							}
+						}
+					},
+					reg_password1 : {
+						validators : {
+							notEmpty : {
+								message : '密码不能为空'
+							},
+							stringLength : {
+								min : 6,
+								max : 16,
+								message : '密码长度为6~16位'
+							},
+							identical : { //相同
+								field : 'reg_password',
+								message : '两次密码输入不一致'
+							},
+							different : { //不能和用户名相同
+								field : 'account',
+								message : '密码不能和用户名相同'
+							},
+							regexp : {
+								regexp : /^[a-zA-Z0-9_\.]+$/,
+								message : '密码由数字、字母、下划线和.组成'
+							}
+						}
+					},
+					nickname : {
+						validators : {
+							notEmpty : {
+								message : '请填写您的姓名'
+							},
+							regexp : {
+								regexp : /^[\u4E00-\u9FA5]{2,4}$/,
+								message : '请输入正确的中文姓名'
+							}
+						}
+					},
+					phone:{
+						message : 'The code is not valid',
+						validators : {
+							notEmpty : {
+								message : '请输入您的手机号!'
+							},regexp : {
+								regexp : /^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\d{8}$/,
+								message : '请输入正确的手机号!'
+							},callback: {
+								message: 'The code is not valid',
+								callback: function (value, validator,$field) {
+									$('#msgBtn').removeClass('disabled');
+									return true;
+								}
+							}
+						}
+					},
+					verifyCode:{
+						message : 'The code is not valid',
+						validators : {
+							notEmpty : {
+								message : '请输入短信验证码!'
+							},
+							stringLength : {
+								min : 6,
+								max : 6,
+								message : '验证码为6位数字'
+							}
+						}
+					}
+				}
+			}).on('success.form.bv', function(e) {
+				e.preventDefault();
+				var $form = $(e.target);
+				$('#reg_form')[0].reset();
+				$("#reg_form").data('bootstrapValidator').destroy();
+				$('#reg_form').data('bootstrapValidator', null);
+				// $.post('/user/reg', $form.serialize(), function(res) {
+				// 	console.log(res);
+				// 	layer.msg(res.msg);
+				// });
+			});
+			//登陆
+			$('#login_form').bootstrapValidator({
+				message : 'This value is not valid',
+				verbose : false,
+				fields : {
+					account : {
+						validators : {
+							notEmpty : {
+								message : '账号不能为空'
+							}
+						}
+					},
+					password : {
+						validators : {
+							notEmpty : {
+								message : '密码不能为空'
+							}
+						}
+					}
+				}
+			}).on('success.form.bv', function(e) {
+				e.preventDefault();
+				var $form = $(e.target);
+				$.post('/user/login', $form.serialize(), function(res) {
+					console.log(res);
+					if (res.status == 0){
+						var str = JSON.stringify(res.data);
+						sessionStorage.localData = str;
+						window.location.href="/chat.html";
+					}
+					layer.msg(res.msg);
+				});
+			});
+
+		//发送验证码
+		new TencentCaptcha(document.getElementById('msgBtn'),'2049167017',function(res) {
+			if(res.ret === 0){
+				var name= $("#nickname").val();
+				var phone= $("#phone").val();
+                 if(($.trim(phone)) && (/^1[3456789]\d{9}$/.test(phone))){
+					$.post('/user/send', {"name":name,"phone":phone},function(res) {
+						if(res.status == 0){
+							$('#msgBtn').addClass('disabled');
+							$('#msgBtn').html('<span id="countdown" style="color:red">59</span>秒后重新获取');
+							var secondObj = $('#msgBtn').find('#countdown');
+							var secondObjVal = secondObj.text();
+							function secondCounter() {
+								var secondTimer = setTimeout(function() {
+									secondObjVal--;
+									secondObj.text(secondObjVal);
+									secondCounter();
+								}, 1000);
+								if (secondObjVal == 0) {
+									clearTimeout(secondTimer);
+									$('#msgBtn').text('重新获取');
+									$('#msgBtn').removeClass('disabled');
+								}
+							}
+							secondCounter();
+						}
+						layer.msg(res.msg);
+					});
+				}
+
+			}else{
+				layer.msg("请填写格式正确的手机号码！");
+			}
+
+		});
+
+		});
+	</script>
+
+</html>
