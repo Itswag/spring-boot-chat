@@ -4,8 +4,7 @@
 # Log file
 *.log
 
-# Package Files #
-*.jar
+# Package Files 
 *.war
 *.nar
 *.ear
